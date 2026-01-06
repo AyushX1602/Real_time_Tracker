@@ -12,10 +12,14 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));    
 
 io.on('connection', function(socket){
+
+    socket.on("sendLocation", function(data){
+        io.emit("locationUpdate", {id:socket.id,...data});
+    });
     console.log('New WebSocket connection');
 
     socket.on('disconnect', function(){
-        console.log('WebSocket disconnected');
+        io.emit('WebSocket-disconnected',socket.id);
     });
 });
 
