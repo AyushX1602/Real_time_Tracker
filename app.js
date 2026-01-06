@@ -11,8 +11,16 @@ const io = socketio(server);
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));    
 
+io.on('connection', function(socket){
+    console.log('New WebSocket connection');
+
+    socket.on('disconnect', function(){
+        console.log('WebSocket disconnected');
+    });
+});
+
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.render('index');
 });
 
 server.listen(3000, () => {
